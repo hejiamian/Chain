@@ -8,7 +8,7 @@ class ChainServiceImp {
             .module("demo")
             .service("demo:DemoService")
             .build().create(ChainService::class.java)
-        chainService.apply()
+        chainService?.apply()
     }
 
     fun display(text: String) {
@@ -16,6 +16,6 @@ class ChainServiceImp {
             .module("demo")
             .service("demo:DemoService")
             .build().create(ChainService::class.java)
-        chainService.display(text)
+        chainService?.display(text)
     }
 }

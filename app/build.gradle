@@ -52,8 +52,8 @@ dependencies {
 
     implementation project(':chain')
     implementation project(':annotation')
-    implementation project(':demo')
     kapt project(':compiler')
+//    implementation project(':demo')
 
     testImplementation deps.junit
     androidTestImplementation deps.androidx.junit

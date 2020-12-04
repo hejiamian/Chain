@@ -6,34 +6,36 @@ import java.lang.reflect.Proxy
 
 class Chain constructor(private val module: String?, private val service: String?) {
     private val targets = mutableMapOf<String?, Any?>()
-    fun <T> create(clazz: Class<T>): T {
+    fun <T> create(clazz: Class<T>): T? {
         val serviceAny = targets[module].obtainTarget()
         val classes = arrayOf(clazz)
-        return Proxy.newProxyInstance(
-            serviceAny::class.java.classLoader,
-            classes, object : InvocationHandler {
-                override fun invoke(proxy: Any?, method: Method, args: Array<out Any>?): Any? {
-                    try {
-                        if (args === null || args.isEmpty()) {
-                            val otherMethod = serviceAny::class.java.getDeclaredMethod(method.name)
-                            return otherMethod.invoke(serviceAny)
-                        } else {
-                            val types = arrayOfNulls<Class<*>>(args.size)
-                            for (i in args.indices) {
-                                types[i] = args[i]::class.java
+        return serviceAny?.let {
+            Proxy.newProxyInstance(
+                serviceAny::class.java.classLoader,
+                classes, object : InvocationHandler {
+                    override fun invoke(proxy: Any?, method: Method, args: Array<out Any>?): Any? {
+                        try {
+                            if (args === null || args.isEmpty()) {
+                                val otherMethod = serviceAny::class.java.getDeclaredMethod(method.name)
+                                return otherMethod.invoke(serviceAny)
+                            } else {
+                                val types = arrayOfNulls<Class<*>>(args.size)
+                                for (i in args.indices) {
+                                    types[i] = args[i]::class.java
+                                }
+                                val otherMethod = serviceAny::class.java.getDeclaredMethod(method.name, *types)
+                                return otherMethod.invoke(serviceAny, *args)
                             }
-                            val otherMethod = serviceAny::class.java.getDeclaredMethod(method.name, *types)
-                            return otherMethod.invoke(serviceAny, *args)
+                        } catch (ex: Exception) {
+                            ex.printStackTrace()
+                            throw ex
                         }
-                    } catch (ex: Exception) {
-                        ex.printStackTrace()
-                        throw ex
                     }
-                }
-            }) as T
+                }) as T
+        }
     }
 
-    private fun Any?.obtainTarget(): Any {
+    private fun Any?.obtainTarget(): Any? {
         return if (this === null) {
             try {
                 val clazz = Class.forName("${module}.ChainBinding")
@@ -47,7 +49,7 @@ class Chain constructor(private val module: String?, private val service: String
                 serviceInstance
             } catch (ex: Exception) {
                 ex.printStackTrace()
-                throw ex
+                null
             }
         } else this
     }
