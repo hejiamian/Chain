@@ -2,11 +2,13 @@ package com.github.example
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.example.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         ChainServiceImp().display("MainActivity")
     }
 }
