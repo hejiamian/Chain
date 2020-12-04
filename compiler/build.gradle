@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'kotlin-kapt'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation deps.kotlin.stdlib
+    implementation deps.autoservice
+    kapt deps.autoservice
+
+    implementation deps.javapoet
+    implementation project(':annotation')
+}

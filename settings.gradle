@@ -1,0 +1,6 @@
+include ':demo'
+include ':chain'
+include ':compiler'
+include ':annotation'
+include ':app'
+rootProject.name = "Chain"
