@@ -21,14 +21,14 @@ class ClassGenerator(val elements: MutableList<TypeElement>) {
                 "new \$L<\$L, \$L>()",
                 HashMap::class.java.simpleName,
                 String::class.java.simpleName,
-                String::class.java.simpleName
+                Any::class.java.simpleName
             )
         )
 
         val constructorCodeBlocks = mutableListOf<CodeBlock>()
         elements.forEach {
             val service = it.getAnnotation(Chain::class.java).service
-            constructorCodeBlocks += CodeBlock.of("this.\$L.put(\"\$L\", \"\$L\")", CHAINS, service, it.qualifiedName)
+            constructorCodeBlocks += CodeBlock.of("this.\$L.put(\"\$L\", new \$L())", CHAINS, service, it.qualifiedName)
         }
         methods += Generator.createConstructor(constructorCodeBlocks)
 

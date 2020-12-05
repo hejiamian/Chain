@@ -42,9 +42,7 @@ class Chain constructor(private val module: String?, private val service: String
                 val constructor = clazz.getDeclaredConstructor()
                 val binding = constructor.newInstance()
                 val method = binding.javaClass.getDeclaredMethod("get", String::class.java)
-                val serviceName = method.invoke(binding, service) as String
-                val serviceClazz = Class.forName(serviceName)
-                val serviceInstance = serviceClazz.getDeclaredConstructor().newInstance()
+                val serviceInstance = method.invoke(binding, service)
                 targets[module] = serviceInstance
                 serviceInstance
             } catch (ex: Exception) {

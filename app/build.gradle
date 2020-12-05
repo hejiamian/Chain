@@ -27,6 +27,20 @@ android {
         viewBinding = true
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def file = output.outputFile
+            if (file != null && file.name.endsWith(".apk")) {
+//                outputFileName = "${file.name}-${variant.versionName}.apk"
+                def newFile = new File(file.parent,
+                        file.name.replace(".apk", "-${variant.versionName}.apk"))
+                outputFileName = newFile.name
+//                    output.outputFile = newFile
+
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -53,7 +67,7 @@ dependencies {
     implementation project(':chain')
     implementation project(':annotation')
     kapt project(':compiler')
-//    implementation project(':demo')
+    implementation project(':demo')
 
     testImplementation deps.junit
     androidTestImplementation deps.androidx.junit
