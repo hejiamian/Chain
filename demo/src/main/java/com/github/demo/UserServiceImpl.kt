@@ -2,7 +2,7 @@ package com.github.demo
 
 import com.chain.annotation.Chain
 
-@Chain(service = "demo:UserServiceq")
+@Chain(service = "demo:UserService")
 class UserServiceImpl() : UserService {
     override fun work() {
         println("${javaClass.simpleName} work")
