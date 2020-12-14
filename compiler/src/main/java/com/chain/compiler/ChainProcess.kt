@@ -9,7 +9,7 @@ import javax.tools.Diagnostic.Kind.NOTE
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("com.chain.annotation.Chain")
-@AutoService(Processor::class)
+//@AutoService(Processor::class)
 class ChainProcess : AbstractProcessor() {
 
     private val messager: Messager by lazy {
@@ -34,7 +34,8 @@ class ChainProcess : AbstractProcessor() {
             }
         }
 
-        val packageName = processingEnv.options["AROUTER_MODULE_NAME"]
+//        val packageName = processingEnv.options["AROUTER_MODULE_NAME"]
+        val packageName = "com.github.example"
         val clazz = ClassGenerator(chains).create()
 
         JavaFile.create(processingEnv.filer, packageName!!, clazz)
