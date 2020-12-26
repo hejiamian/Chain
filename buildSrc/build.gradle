@@ -1,0 +1,20 @@
+plugins {
+    id 'groovy'
+}
+
+
+dependencies {
+    implementation gradleApi() //必须
+    implementation localGroovy() //必须
+    implementation "com.android.tools.build:gradle:4.1.0"
+    implementation "org.javassist:javassist:3.27.0-GA"
+//        implementation deps.kotlin.stdlib
+//        implementation deps.asm_all
+//        implementation deps.gradle_build
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral() //必须
+}
