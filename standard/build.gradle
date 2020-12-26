@@ -10,10 +10,11 @@ dependencies {
     implementation deps.asm_all
     implementation deps.gradle_build
     implementation deps.javassist
+    implementation deps.commons_io
 }
 
 repositories {
-    //google()
+    google()
     jcenter()
     mavenCentral() //必须
 }

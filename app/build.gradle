@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 //    id 'com.github.customplugin'
+    id 'com.github.standard'
 }
 
 android {
@@ -57,8 +58,13 @@ android {
     }
 }
 
-dependencies {
+InjectClassCode{
+    injectCode = """ android.widget.Toast.makeText(this,"Toast test!!",android.widget.Toast.LENGTH_SHORT).show(); """
+    android = "D:\\android\\sdk\\platforms\\android-30\\android.jar"
+}
 
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.kotlin.stdlib
     implementation deps.constraint_layout
     implementation deps.androidx.core
